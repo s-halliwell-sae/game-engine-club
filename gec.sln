@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{052132E9-C2A0-4C68-BAEF-EC19899923D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{03A2F936-73D4-4B5C-8FA2-1301B8BB576A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projects", "Projects", "{311F9280-DF8A-4CDE-AA8D-69335CC6E4CA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "third party tests", "tests\third party tests\third party tests.vcxproj", "{1A5FDB54-B7DE-4C48-BBE0-E91B14011280}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A5FDB54-B7DE-4C48-BBE0-E91B14011280}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1A5FDB54-B7DE-4C48-BBE0-E91B14011280}.Debug|Win32.Build.0 = Debug|Win32
+		{1A5FDB54-B7DE-4C48-BBE0-E91B14011280}.Release|Win32.ActiveCfg = Release|Win32
+		{1A5FDB54-B7DE-4C48-BBE0-E91B14011280}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1A5FDB54-B7DE-4C48-BBE0-E91B14011280} = {03A2F936-73D4-4B5C-8FA2-1301B8BB576A}
+	EndGlobalSection
+EndGlobal

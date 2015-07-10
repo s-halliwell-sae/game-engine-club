@@ -1,0 +1,4 @@
+https://github.com/gabime/spdlog
+https://github.com/g-truc/glm
+https://code.google.com/p/box2d/
+http://luajit.org/install.html
