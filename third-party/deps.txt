@@ -1,5 +1,20 @@
+SpeedLog
 https://github.com/gabime/spdlog
+The third-party property sheet may need to be configured for its folders. We currently have spdlog-master\include\spdlog added to the c++ include dir 
+
+GLM
 https://github.com/g-truc/glm
-https://code.google.com/p/box2d/
+The third-party property sheet may need to be configured for its folders. We currently have glm-master\glm added to the c++ include dir 
+
+
+https://github.com/erincatto/Box2D
+
+Lua
+Has it's own special build needs since we recommend luajit
 http://luajit.org/install.html
+
+Once built, the third-party property sheet may need to be configured for its folders. We currently have luaJIT-2.0.3\src added to the c++ include dir and lib dir. And lua51.lib added to input libraries.
+
+The dll, eg lua51.dll will need to be placed next to any and all exes. We are working on a post build step to copy the file for you.
+
 https://github.com/ned14/nedmalloc
