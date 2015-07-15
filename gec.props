@@ -2,7 +2,12 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup>
+    <OutDir>$(SolutionDir)\bin\</OutDir>
+    <TargetName>$(ProjectName)_$(Configuration)</TargetName>
+    <_PropertySheetDisplayName>gec</_PropertySheetDisplayName>
+    <IntDir>$(SolutionDir)\temp\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)\third-party\LuaJIT-2.0.3\src;$(SolutionDir)\third-party\glm-master\glm;$(SolutionDir)\third-party\spdlog-master\include\spdlog;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
