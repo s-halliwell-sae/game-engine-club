@@ -15,6 +15,10 @@ http://luajit.org/install.html
 
 Once built, the third-party property sheet may need to be configured for its folders. We currently have luaJIT-2.0.3\src added to the c++ include dir and lib dir. And lua51.lib added to input libraries.
 
-The dll, eg lua51.dll will need to be placed next to any and all exes. We are working on a post build step to copy the file for you.
+The dll, eg lua51.dll will need to be placed next to any and all exes. Currently this is handled by a build post step that copies this file to bin for you
 
 https://github.com/ned14/nedmalloc
+
+SFML
+http://www.sfml-dev.org/download/sfml/2.3.1/
+Currently using sfml 2.3.1 and configured in gec property sheet. In order to link to correct debug and release libs, will require addition gec-debug and gec-release property sheets.

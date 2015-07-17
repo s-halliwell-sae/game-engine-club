@@ -7,10 +7,13 @@
 #include "lua.hpp"
 #include "glm.hpp"
 #include "spdlog.h"
+//#include "SFML\System.hpp"
 
 void main()
 {
 	glm::vec3 a,b;
+
+	//sf::Vector2f c, d;
 
 	a = a + b;
 
