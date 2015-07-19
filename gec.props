@@ -10,15 +10,16 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\third-party\LuaJIT-2.0.3\src;$(SolutionDir)\third-party\glm-master\glm;$(SolutionDir)\third-party\spdlog-master\include\spdlog;$(SolutionDir)\third-party\SFML-2.3.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\third-party\LuaJIT-2.0.3\src;$(SolutionDir)\third-party\glm-master\glm;$(SolutionDir)\third-party\spdlog-master\include\spdlog;$(SolutionDir)\third-party\sdl\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)\third-party\LuaJIT-2.0.3\src;$(SolutionDir)\third-party\SFML-2.3.1\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lua51.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\third-party\LuaJIT-2.0.3\src;$(SolutionDir)\third-party\sdl\lib\win32</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lua51.lib;sdl2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)\third-party\LuaJIT-2.0.3\src\lua51.dll" "$(SolutionDir)\bin\" /d /y /r /h
+      <Command>xcopy "$(SolutionDir)\third-party\LuaJIT-2.0.3\src\lua51.dll" "$(SolutionDir)\bin\" /d /y /r /h /c,
+xcopy "$(SolutionDir)\third-party\sdl\lib\win32\sdl2.dll" "$(SolutionDir)\bin\" /d /y /r /h /c
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

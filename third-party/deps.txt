@@ -19,6 +19,6 @@ The dll, eg lua51.dll will need to be placed next to any and all exes. Currently
 
 https://github.com/ned14/nedmalloc
 
-SFML
-http://www.sfml-dev.org/download/sfml/2.3.1/
-Currently using sfml 2.3.1 and configured in gec property sheet. In order to link to correct debug and release libs, will require addition gec-debug and gec-release property sheets.
+sdl 2.0
+https://buildbot.libsdl.org/sdl-builds/sdl-visualstudio/?C=M;O=D
+We have version 2522 in a folder called sdl, this is then included, libs link and dll copied via the general gec property sheet.
