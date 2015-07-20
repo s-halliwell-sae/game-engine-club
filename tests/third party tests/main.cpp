@@ -10,6 +10,15 @@
 #include "SDL.h"
 #undef main
 
+void LuaTest()
+{
+	lua_State* L = lua_open();
+	luaL_openlibs(L);
+	luaL_dostring(L, "print(\"Hello World from Lua\")");
+	lua_close(L);
+	L = nullptr;
+}
+
 void SDLStartUp()
 {
 	//http://openme.gl/opengl-4-x-example-using-sdl2-and-glm/
@@ -91,6 +100,8 @@ int main(int argc, char *argv[])
 	glm::vec3 a,b;
 
 	a = a + b;
+
+	LuaTest();
 
 	//test sdl by creating an ogl 4.x window
 	SDLStartUp();

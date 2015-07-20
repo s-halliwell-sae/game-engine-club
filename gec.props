@@ -18,7 +18,7 @@
       <AdditionalDependencies>lua51.lib;sdl2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)\third-party\LuaJIT-2.0.3\src\lua51.dll" "$(SolutionDir)\bin\" /d /y /r /h /c,
+      <Command>xcopy "$(SolutionDir)\third-party\LuaJIT-2.0.3\src\lua51.dll" "$(SolutionDir)\bin\" /d /y /r /h /c
 xcopy "$(SolutionDir)\third-party\sdl\lib\win32\sdl2.dll" "$(SolutionDir)\bin\" /d /y /r /h /c
 </Command>
     </PostBuildEvent>
