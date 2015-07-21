@@ -10,12 +10,12 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\third-party\LuaJIT-2.0.3\src;$(SolutionDir)\third-party\glm-master\glm;$(SolutionDir)\third-party\spdlog-master\include\spdlog;$(SolutionDir)\third-party\sdl\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\third-party\LuaJIT-2.0.3\src;$(SolutionDir)\third-party\glm-master\glm;$(SolutionDir)\third-party\spdlog-master\include\spdlog;$(SolutionDir)\third-party\sdl\include;$(SolutionDir)\third-party\jemalloc-win32-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_LIB;USE_STATIC;GPL_DECLARE_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)\third-party\LuaJIT-2.0.3\src;$(SolutionDir)\third-party\sdl\lib\win32</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lua51.lib;sdl2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\third-party\LuaJIT-2.0.3\src;$(SolutionDir)\third-party\sdl\lib\win32;$(SolutionDir)\third-party\jemalloc-win32-master\lib\vc2013\x86</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lua51.lib;sdl2.lib;libjemalloc_x86_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)\third-party\LuaJIT-2.0.3\src\lua51.dll" "$(SolutionDir)\bin\" /d /y /r /h /c

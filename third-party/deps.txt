@@ -17,7 +17,8 @@ Once built, the third-party property sheet may need to be configured for its fol
 
 The dll, eg lua51.dll will need to be placed next to any and all exes. Currently this is handled by a build post step that copies this file to bin for you
 
-https://github.com/ned14/nedmalloc
+https://github.com/shines77/jemalloc-win32
+Will need to be built. Property sheet looks for headers (third-party\jemalloc-win32-master\include) and libs (third-party\jemalloc-win32-master\lib\vc2013\x86)
 
 sdl 2.0
 https://buildbot.libsdl.org/sdl-builds/sdl-visualstudio/?C=M;O=D
