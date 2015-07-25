@@ -5,45 +5,48 @@
 */
 
 //must include spdlog before jemalloc due to incompat custom version of stdint in jemalloc
-#include "spdlog.h"
-#include "jemalloc\jemalloc.h"
-#include <stdlib.h>
-#include <stdio.h>
+#include <spdlog.h>
+
+// This forces jemalloc to prepend all it's functions with je_
+//	NB: the library must also be built with this flag
+#define JEMALLOC_NO_RENAME
+#include <jemalloc/jemalloc.h>
+#include <cstdio>
 #include <iostream>
 
-#include "lua.hpp"
-#include "glm.hpp"
-#include "SDL.h"
+#include <lua.hpp>
+#include <glm.hpp>
+#include <SDL.h>
 #undef main
 
-void jemallocTest()
-{
+void jemallocTest(){
 	void *p;
 
+	#ifdef WIN32
 	// If you use jemalloc through the static lib,
 	// must be manual initialize jemalloc first.
 	je_init();
+	#endif
 
-	p = (void *)je_malloc(128);
+	p = je_malloc(128);
 	if (p) {
-		printf("malloc(%u) result ptr = 0x%016"PRIXPTR"\n\n", 128, p);
+		printf("malloc(%u) result ptr = 0x%016" PRIXPTR "\n\n", 128, (unsigned long)p);
 		je_free(p);
 	}
 
-	p = (void *)je_malloc(256);
+	p = je_malloc(256);
 	if (p) {
-		printf("malloc(%u) result ptr = 0x%016"PRIXPTR"\n\n", 256, p);
+		printf("malloc(%u) result ptr = 0x%016" PRIXPTR "\n\n", 256, (unsigned long)p);
 		je_free(p);
 	}
 
+	#ifdef WIN32
 	// Unload the jemalloc
 	je_uninit();
-
-	std::cout << "jemalloc test complete\n";
+	#endif
 }
 
-void LuaTest()
-{
+void LuaTest(){
 	lua_State* L = lua_open();
 	luaL_openlibs(L);
 	luaL_dostring(L, "print(\"Hello World from Lua\")");
@@ -53,12 +56,13 @@ void LuaTest()
 
 void SDLStartUp()
 {
+	std::cout << "SDL Test" << std::endl;
 	//http://openme.gl/opengl-4-x-example-using-sdl2-and-glm/
 	SDL_Window *mainwindow;
 	SDL_GLContext maincontext;/* Our opengl context handle */
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) { /* Initialize SDL's Video subsystem */
-		std::cout << "Unable to initialize SDL";
+		std::cout << "Unable to initialize SDL" << std::endl;
 		return;
 	}
 
@@ -127,11 +131,10 @@ void SDLStartUp()
 	std::cout << "SDL2 start up and shutdown complete\n";
 }
 
-int main(int argc, char *argv[])
-{
-	glm::vec3 a,b;
-
+int main(int argc, char *argv[]){
+	glm::vec3 a(1,0,0),b(0,1,0);
 	a = a + b;
+	std::cout << "GLM a + b = (" << a.x << "," << a.y << "," << a.z << ")" << std::endl;
 
 	LuaTest();
 
