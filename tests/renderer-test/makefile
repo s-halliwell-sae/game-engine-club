@@ -3,7 +3,8 @@ CXXFLAGS=-std=c++11 -I/usr/local/include/spdlog/ -I/usr/local/include/glm/ -I/us
 BUILDDIR=../../build
 .PHONY: run checkbuilddir
 
-OBJ=main.o
+SRC=$(shell find . -name "*.cpp")
+OBJ=$(SRC:%.cpp=%.o)
 
 build: checkbuilddir $(BUILDDIR)/build
 
