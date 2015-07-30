@@ -1,4 +1,4 @@
-LIBS=`pkg-config --libs sdl2` -lGL -lGLEW
+LIBS=`pkg-config --libs sdl2` -lGL
 CXXFLAGS=-std=c++11 -I/usr/local/include/spdlog/ -I/usr/local/include/glm/ -I/usr/local/include/SDL2/
 BUILDDIR=../../build
 .PHONY: run checkbuilddir

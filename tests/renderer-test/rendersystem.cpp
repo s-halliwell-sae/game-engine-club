@@ -1,8 +1,11 @@
 #include "rendersystem.h"
 #include <SDL.h>
-#include <GL/glew.h>
+
+#define GL_GLEXT_PROTOTYPES
+#include <SDL_opengl.h>
 
 RenderSystem::RenderSystem(SDL_Window* window){
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 
@@ -11,9 +14,6 @@ RenderSystem::RenderSystem(SDL_Window* window){
 
 	glctx = SDL_GL_CreateContext(window);
 	if(!glctx) throw "GL Context failed to open";
-
-	glewExperimental = true;
-	if(glewInit() != GLEW_OK) throw "Glew init failed";
 
 	// Normally these are used for actually drawing things but
 	//	post opengl 3.something, one needs to be bound regardless of

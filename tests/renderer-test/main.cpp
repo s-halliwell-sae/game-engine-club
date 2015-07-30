@@ -1,14 +1,9 @@
 #include <iostream>
 #include <SDL.h>
 
-#ifdef WIN32
-#undef main
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
-#endif
+#define GL_GLEXT_PROTOTYPES
+#include <SDL_opengl.h>
 
-// TODO: Test to see if glew requires Windows.h like gl.h on windows does
-#include <GL/glew.h>
 #include "rendersystem.h"
 
 int main(){
