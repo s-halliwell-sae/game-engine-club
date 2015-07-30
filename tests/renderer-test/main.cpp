@@ -1,6 +1,13 @@
 #include <iostream>
 #include <SDL.h>
-#include <gl.h>
+#undef main
+
+#ifdef WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#endif
+
+#include <GL/gl.h>
 
 int main(){
 	if(SDL_Init(SDL_INIT_VIDEO) < 0){
