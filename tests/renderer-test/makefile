@@ -11,6 +11,9 @@ build: checkbuilddir $(BUILDDIR)/build
 $(BUILDDIR)/build: $(OBJ)
 	g++ $^ $(LIBS) -o$(BUILDDIR)/build
 
+%.o: %.cpp %.h
+	g++ $(CXXFLAGS) -c $<
+
 checkbuilddir:
 	@if [ ! -d $(BUILDDIR) ]; then mkdir $(BUILDDIR); fi
 

@@ -5,6 +5,7 @@
 #include <SDL_opengl.h>
 
 #include "rendersystem.h"
+#include "renderable.h"
 
 int main(){
 	try{
@@ -20,6 +21,12 @@ int main(){
 		}
 
 		auto rendersystem = new RenderSystem(window);
+		rendersystem->AddRenderable(new Renderable("r1"));
+		rendersystem->AddRenderable(new Renderable("r2"));
+		rendersystem->AddRenderable(new Renderable("r3"), RenderPriority::Background);
+		rendersystem->AddRenderable(new Renderable("r4"), RenderPriority::Foreground);
+		rendersystem->AddRenderable(new Renderable("r5"));
+		rendersystem->Render();
 
 		SDL_Event e;
 		bool running = true;
