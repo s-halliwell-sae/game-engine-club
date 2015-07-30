@@ -7,7 +7,7 @@
 #include <Windows.h>
 #endif
 
-#include <GL/gl.h>
+#include <GL/glew.h>
 
 int main(){
 	if(SDL_Init(SDL_INIT_VIDEO) < 0){
@@ -35,6 +35,15 @@ int main(){
 		std::cerr << "GL Context failed to open" << std::endl;
 		return -1;
 	}
+
+	glewExperimental = true;
+	if(glewInit() != GLEW_OK){
+		std::cerr << "Glew init failed" << std::endl;
+		return -1;
+	}
+
+	GLuint vao = 0;
+	glGenVertexArrays(1, &vao);
 
 	SDL_Event e;
 	bool running = true;
