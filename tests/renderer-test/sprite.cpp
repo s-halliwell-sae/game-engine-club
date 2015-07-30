@@ -6,9 +6,9 @@ Sprite::Sprite(std::string name): Renderable(name){
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
 	vec2 data[] = {
-		vec2(0, 	0.33),
-		vec2(-0.33,-0.33),
-		vec2(0.33, -0.33),
+		vec2(cos(0*M_PI/3), sin(0*M_PI/3)) * 0.5f,
+		vec2(cos(2*M_PI/3), sin(2*M_PI/3)) * 0.5f,
+		vec2(cos(4*M_PI/3), sin(4*M_PI/3)) * 0.5f,
 	};
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);

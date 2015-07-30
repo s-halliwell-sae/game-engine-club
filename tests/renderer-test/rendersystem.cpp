@@ -102,6 +102,8 @@ RenderSystem::RenderSystem(SDL_Window* window) : renderQueueDirty(false){
 	}
 
 	glUseProgram(shader);
+	modelMatrixLocation = glGetUniformLocation(shader, "modelMatrix");
+	projViewMatrixLocation = glGetUniformLocation(shader, "projectionViewMatrix");
 }
 
 RenderSystem::~RenderSystem(){
@@ -138,8 +140,16 @@ void RenderSystem::RemoveRenderable(Renderable* r){
 void RenderSystem::Render(){
 	if(renderQueueDirty) Sort();
 
+	mat3 pvMatrix;
+	pvMatrix[0] = vec3(1.f/aspect, 0, 0);
+	pvMatrix[1] = vec3(0, 1, 0);
+	pvMatrix[2] = vec3(0, 0, 1);
+
+	glUniformMatrix3fv(projViewMatrixLocation, 1, GL_FALSE, glm::value_ptr(pvMatrix));
 	for(auto r: renderQueue){
 		// std::cout << "Rendering " << r->name << std::endl;
+		auto transform = r->transform.ComposeTransformMatrix();
+		glUniformMatrix3fv(modelMatrixLocation, 1, GL_FALSE, glm::value_ptr(transform));
 		r->Render(this);
 	}
 }

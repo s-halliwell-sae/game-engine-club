@@ -30,6 +30,8 @@ private:
 	f32 aspect;
 
 	u32 shader;
+	u32 modelMatrixLocation;
+	u32 projViewMatrixLocation;
 
 	RenderQueue renderQueue;
 	bool renderQueueDirty;

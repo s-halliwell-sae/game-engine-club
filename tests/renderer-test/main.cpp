@@ -40,11 +40,14 @@ int main(){
 		// std::cout << glm::to_string(t.ComposeTransformMatrix()) << std::endl;
 		// std::cout << glm::to_string(t.ComposeTransformMatrix() * vec3(1, 0.5, 1)) << std::endl;
 
-		rendersystem->AddRenderable(new Sprite("sprite1"));
+		auto sprite1 = new Sprite("sprite1");
+		sprite1->GetTransform().position += vec2(-1, 0);
+		rendersystem->AddRenderable(sprite1);
 		rendersystem->Render();
 
 		SDL_Event e;
 		bool running = true;
+		f32 t = 0.f;
 
 		while(running){
 			while(SDL_PollEvent(&e)){
@@ -64,9 +67,14 @@ int main(){
 				}
 			}
 
+			t += 0.05;
+
 			glClearColor(0.7,0,1,1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
+			sprite1->GetTransform().position = vec2(cos(t*0.5)/**0.7*/, sin(t)*0.5);
+			sprite1->GetTransform().scale = vec2(sin(t*3)*0.08 + 1.f);
+			sprite1->GetTransform().rotation = t*M_PI/6.f;
 			rendersystem->Render();
 
 			SDL_GL_SwapWindow(window);

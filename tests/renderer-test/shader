@@ -1,9 +1,12 @@
 #ifdef VS
 
 layout(location=0) in vec2 vertex;
+uniform mat3 projectionViewMatrix;
+uniform mat3 modelMatrix;
 
 void main(){
-	gl_Position = vec4(vertex, 0, 1);
+	vec3 position = projectionViewMatrix * modelMatrix * vec3(vertex, 1);
+	gl_Position = vec4(position, 1);
 }
 
 #endif

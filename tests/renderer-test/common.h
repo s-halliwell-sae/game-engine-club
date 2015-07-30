@@ -2,8 +2,9 @@
 #define COMMON_H
 
 #include <cstdint>
-#include "glm.hpp"
-#include "glm/gtx/string_cast.hpp"
+#include <glm.hpp>
+#include <gtx/string_cast.hpp>
+#include <gtc/type_ptr.hpp>
 
 using u8  = uint8_t;
 using u16 = uint16_t;

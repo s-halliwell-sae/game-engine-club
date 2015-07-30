@@ -2,7 +2,9 @@
 
 using std::string;
 
-Renderable::Renderable(string n) : name(n), transform() {}
+Renderable::Renderable(string n) : name(n), transform{vec2(0,0), vec2(1,1), 0} {
+	
+}
 
 const string& Renderable::GetName() const {
 	return name;
