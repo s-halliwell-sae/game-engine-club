@@ -27,6 +27,9 @@ private:
 	float aspect;
 
 	RenderQueue renderQueue;
+	bool renderQueueDirty;
+
+	void Sort();
 
 public:
 	RenderSystem(SDL_Window*);
@@ -36,6 +39,7 @@ public:
 	void NotifyResize(s32 w, s32 h);
 
 	void AddRenderable(Renderable*, u32 = RenderPriority::Default);
+	void RemoveRenderable(Renderable*);
 	void Render();
 };
 

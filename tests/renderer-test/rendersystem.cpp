@@ -10,10 +10,10 @@
 bool RenderablePriorityComparator::operator()(Renderable* a, Renderable* b) {
 	// RenderPriorities closer to 0 should be rendered first so sort
 	//	backwards
-	return a->renderPriority > b->renderPriority;
+	return a->renderPriority < b->renderPriority;
 }
 
-RenderSystem::RenderSystem(SDL_Window* window){
+RenderSystem::RenderSystem(SDL_Window* window) : renderQueueDirty(false){
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
@@ -54,13 +54,30 @@ void RenderSystem::AddRenderable(Renderable* r, u32 priority){
 	r->renderPriority = priority;
 	renderQueue.push_back(r);
 
-	std::sort(renderQueue.begin(), renderQueue.end(), RenderablePriorityComparator());
+	renderQueueDirty = true;
 	std::cout << "Renderable " << r->name << " added to queue" << std::endl;
+}
+void RenderSystem::RemoveRenderable(Renderable* r){
+	auto rit = std::find(renderQueue.begin(), renderQueue.end(), r);
+	if(rit == renderQueue.end()) return;
+
+	std::swap(*rit, *(renderQueue.end()-1));
+	renderQueue.pop_back();
+
+	renderQueueDirty = true;
+	std::cout << "Renderable " << r->name << " removed from queue" << std::endl;
 }
 
 void RenderSystem::Render(){
+	if(renderQueueDirty) Sort();
+
 	for(auto r: renderQueue){
 		std::cout << "Rendering " << r->name << std::endl;
 		r->Render(this);
 	}
+}
+
+void RenderSystem::Sort(){
+	std::sort(renderQueue.begin(), renderQueue.end(), RenderablePriorityComparator());
+	std::cout << "RenderQueue sorted" << std::endl;
 }

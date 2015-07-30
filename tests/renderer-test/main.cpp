@@ -22,10 +22,16 @@ int main(){
 
 		auto rendersystem = new RenderSystem(window);
 		rendersystem->AddRenderable(new Renderable("r1"));
-		rendersystem->AddRenderable(new Renderable("r2"));
+		auto r2 = new Renderable("r2");
+		rendersystem->AddRenderable(r2);
 		rendersystem->AddRenderable(new Renderable("r3"), RenderPriority::Background);
 		rendersystem->AddRenderable(new Renderable("r4"), RenderPriority::Foreground);
 		rendersystem->AddRenderable(new Renderable("r5"));
+		rendersystem->AddRenderable(new Renderable("r6"));
+		rendersystem->AddRenderable(new Renderable("r7"));
+		rendersystem->AddRenderable(new Renderable("r8"));
+		rendersystem->Render();
+		rendersystem->RemoveRenderable(r2);
 		rendersystem->Render();
 
 		SDL_Event e;
