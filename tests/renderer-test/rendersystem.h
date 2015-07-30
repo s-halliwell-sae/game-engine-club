@@ -5,6 +5,9 @@
 #include <queue>
 #include <vector>
 
+#define GL_GLEXT_PROTOTYPES
+#include <SDL_opengl.h>
+
 struct SDL_Window;
 class Renderable;
 
@@ -24,7 +27,9 @@ public:
 
 private:
 	void* glctx;
-	float aspect;
+	f32 aspect;
+
+	u32 shader;
 
 	RenderQueue renderQueue;
 	bool renderQueueDirty;
@@ -35,7 +40,7 @@ public:
 	RenderSystem(SDL_Window*);
 	~RenderSystem();
 
-	float GetAspect() const;
+	f32 GetAspect() const;
 	void NotifyResize(s32 w, s32 h);
 
 	void AddRenderable(Renderable*, u32 = RenderPriority::Default);

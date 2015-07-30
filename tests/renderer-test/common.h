@@ -2,6 +2,8 @@
 #define COMMON_H
 
 #include <cstdint>
+#include "glm.hpp"
+#include "glm/gtx/string_cast.hpp"
 
 using u8  = uint8_t;
 using u16 = uint16_t;
@@ -15,5 +17,9 @@ using s64 = int64_t;
 
 using f32 = float;
 using f64 = double;
+
+using glm::vec2;
+using glm::vec3;
+using glm::mat3;
 
 #endif

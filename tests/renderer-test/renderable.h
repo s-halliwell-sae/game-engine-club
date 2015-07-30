@@ -1,21 +1,27 @@
 #ifndef RENDERABLE_H
 #define RENDERABLE_H
 
-#include "common.h"
 #include <string>
+#include "common.h"
+#include "transform.h"
 
 class RenderSystem;
 
 class Renderable{
-	friend struct RenderablePriorityComparator;
 	friend class RenderSystem;
-private:
+protected:
 	std::string name;
 	u32 renderPriority;
+	Transform transform;
 
 public:
 	Renderable(std::string);
 	virtual ~Renderable() {};
+
+	const std::string& GetName() const;
+	u32 GetRenderPriority() const;
+	const Transform& GetTransform() const;
+	Transform& GetTransform();
 
 	virtual void Render(RenderSystem*) {};
 };

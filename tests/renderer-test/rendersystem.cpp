@@ -1,16 +1,15 @@
 #include "rendersystem.h"
 #include <SDL.h>
 
-#define GL_GLEXT_PROTOTYPES
-#include <SDL_opengl.h>
-
 #include <algorithm>
+#include <iostream>
+#include <fstream>
 #include "renderable.h"
 
 bool RenderablePriorityComparator::operator()(Renderable* a, Renderable* b) {
 	// RenderPriorities closer to 0 should be rendered first so sort
 	//	backwards
-	return a->renderPriority < b->renderPriority;
+	return a->GetRenderPriority() < b->GetRenderPriority();
 }
 
 RenderSystem::RenderSystem(SDL_Window* window) : renderQueueDirty(false){
@@ -34,7 +33,75 @@ RenderSystem::RenderSystem(SDL_Window* window) : renderQueueDirty(false){
 
 	s32 w, h;
 	SDL_GetWindowSize(window, &w, &h);
-	aspect = static_cast<float>(w)/h;
+	aspect = static_cast<f32>(w)/h;
+
+	// This is copy-pasta and gross
+	// TODO: Make this go away
+	std::vector<const char*> lines{"#version 330\n", nullptr}; 
+	std::ifstream file("shader", std::ios::binary);
+	if(!file) throw "Shader not found";
+
+	file.seekg(0, file.end);
+	auto length = file.tellg();
+	file.seekg(0, file.beg);
+
+	std::string data(length+1l, '\0');
+	file.read(&data[0], length);
+	lines.push_back(data.data());
+
+	uint vsh, fsh;
+	auto compileShader = [&](uint type) -> uint {
+		auto sh = glCreateShader(type);
+
+		switch(type){
+			case GL_VERTEX_SHADER: lines[1] = "#define VS\n"; break;
+			case GL_FRAGMENT_SHADER: lines[1] = "#define FS\n"; break;
+			default: lines[1] = "";
+		}
+
+		glShaderSource(sh, lines.size(), lines.data(), nullptr);
+		glCompileShader(sh);
+
+		int status;
+		glGetShaderiv(sh, GL_COMPILE_STATUS, &status);
+		if(status != GL_TRUE){
+			char* buffer = new char[1024];
+			glGetShaderInfoLog(sh, 1024, nullptr, buffer);
+
+			std::cerr << buffer << std::endl;
+			delete[] buffer;
+			throw "Shader compile fail";
+		}
+
+		return sh;
+	};
+
+	vsh = compileShader(GL_VERTEX_SHADER);
+	fsh = compileShader(GL_FRAGMENT_SHADER);
+
+	shader = glCreateProgram();
+	glAttachShader(shader, vsh);
+	glAttachShader(shader, fsh);
+	glLinkProgram(shader);
+
+	glDeleteShader(vsh);
+	glDeleteShader(fsh);
+
+	int status;
+	glGetProgramiv(shader, GL_LINK_STATUS, &status);
+	if(status == GL_FALSE){
+		int logLength = 0;
+		glGetProgramiv(shader, GL_INFO_LOG_LENGTH, &logLength);
+
+		char* buffer = new char[logLength];
+		glGetProgramInfoLog(shader, logLength, nullptr, buffer);
+
+		std::cerr << buffer << std::endl;
+		delete[] buffer;
+		throw "Program link fail";
+	}
+
+	glUseProgram(shader);
 }
 
 RenderSystem::~RenderSystem(){
@@ -55,7 +122,7 @@ void RenderSystem::AddRenderable(Renderable* r, u32 priority){
 	renderQueue.push_back(r);
 
 	renderQueueDirty = true;
-	std::cout << "Renderable " << r->name << " added to queue" << std::endl;
+	// std::cout << "Renderable " << r->name << " added to queue" << std::endl;
 }
 void RenderSystem::RemoveRenderable(Renderable* r){
 	auto rit = std::find(renderQueue.begin(), renderQueue.end(), r);
@@ -65,19 +132,20 @@ void RenderSystem::RemoveRenderable(Renderable* r){
 	renderQueue.pop_back();
 
 	renderQueueDirty = true;
-	std::cout << "Renderable " << r->name << " removed from queue" << std::endl;
+	// std::cout << "Renderable " << r->name << " removed from queue" << std::endl;
 }
 
 void RenderSystem::Render(){
 	if(renderQueueDirty) Sort();
 
 	for(auto r: renderQueue){
-		std::cout << "Rendering " << r->name << std::endl;
+		// std::cout << "Rendering " << r->name << std::endl;
 		r->Render(this);
 	}
 }
 
 void RenderSystem::Sort(){
 	std::sort(renderQueue.begin(), renderQueue.end(), RenderablePriorityComparator());
-	std::cout << "RenderQueue sorted" << std::endl;
+	renderQueueDirty = false;
+	// std::cout << "RenderQueue sorted" << std::endl;
 }

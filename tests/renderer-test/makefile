@@ -1,7 +1,7 @@
 LIBS=`pkg-config --libs sdl2` -lGL
-CXXFLAGS=-std=c++11 -I/usr/local/include/spdlog/ -I/usr/local/include/glm/ -I/usr/local/include/SDL2/
+CXXFLAGS=-std=c++11 -Wall -I/usr/local/include/spdlog/ -I/usr/local/include/glm/ -I/usr/local/include/SDL2/
 BUILDDIR=../../build
-.PHONY: run checkbuilddir
+.PHONY: run clean checkbuilddir
 
 SRC=$(shell find . -name "*.cpp")
 OBJ=$(SRC:%.cpp=%.o)
@@ -19,3 +19,6 @@ checkbuilddir:
 
 run: build
 	@../../build/build
+
+clean:
+	rm *.o

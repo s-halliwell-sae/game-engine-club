@@ -1,11 +1,9 @@
 #include <iostream>
 #include <SDL.h>
 
-#define GL_GLEXT_PROTOTYPES
-#include <SDL_opengl.h>
-
 #include "rendersystem.h"
 #include "renderable.h"
+#include "sprite.h"
 
 int main(){
 	try{
@@ -23,15 +21,26 @@ int main(){
 		auto rendersystem = new RenderSystem(window);
 		rendersystem->AddRenderable(new Renderable("r1"));
 		auto r2 = new Renderable("r2");
+		auto r3 = new Renderable("r3");
 		rendersystem->AddRenderable(r2);
-		rendersystem->AddRenderable(new Renderable("r3"), RenderPriority::Background);
+		rendersystem->AddRenderable(r3, RenderPriority::Background);
 		rendersystem->AddRenderable(new Renderable("r4"), RenderPriority::Foreground);
-		rendersystem->AddRenderable(new Renderable("r5"));
-		rendersystem->AddRenderable(new Renderable("r6"));
-		rendersystem->AddRenderable(new Renderable("r7"));
-		rendersystem->AddRenderable(new Renderable("r8"));
+		// rendersystem->AddRenderable(new Renderable("r5"));
+		// rendersystem->AddRenderable(new Renderable("r6"));
+		// rendersystem->AddRenderable(new Renderable("r7"));
+		// rendersystem->AddRenderable(new Renderable("r8"));
+		rendersystem->Render();
 		rendersystem->Render();
 		rendersystem->RemoveRenderable(r2);
+		rendersystem->RemoveRenderable(r3);
+		rendersystem->Render();
+
+		// Transform t{vec2(1.f, 1.f), vec2(1.f), M_PI};
+		// std::cout << t << std::endl;
+		// std::cout << glm::to_string(t.ComposeTransformMatrix()) << std::endl;
+		// std::cout << glm::to_string(t.ComposeTransformMatrix() * vec3(1, 0.5, 1)) << std::endl;
+
+		rendersystem->AddRenderable(new Sprite("sprite1"));
 		rendersystem->Render();
 
 		SDL_Event e;
@@ -57,6 +66,8 @@ int main(){
 
 			glClearColor(0.7,0,1,1);
 			glClear(GL_COLOR_BUFFER_BIT);
+
+			rendersystem->Render();
 
 			SDL_GL_SwapWindow(window);
 		}
