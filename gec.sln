@@ -13,6 +13,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "third party tests", "tests\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project1", "tests\renderer-test\Project1.vcxproj", "{0DB0851C-34EB-41BA-A3FE-C2F6DE33E031}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gec-core", "engine\Core\core.vcxproj", "{DEC3D83E-8C30-454D-ADE5-C7F57F58E0CC}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "core tests", "tests\core tests\core tests.vcxproj", "{4AA93330-4C1A-4E17-8AA2-AF2F28C06AC1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -27,6 +31,14 @@ Global
 		{0DB0851C-34EB-41BA-A3FE-C2F6DE33E031}.Debug|Win32.Build.0 = Debug|Win32
 		{0DB0851C-34EB-41BA-A3FE-C2F6DE33E031}.Release|Win32.ActiveCfg = Release|Win32
 		{0DB0851C-34EB-41BA-A3FE-C2F6DE33E031}.Release|Win32.Build.0 = Release|Win32
+		{DEC3D83E-8C30-454D-ADE5-C7F57F58E0CC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DEC3D83E-8C30-454D-ADE5-C7F57F58E0CC}.Debug|Win32.Build.0 = Debug|Win32
+		{DEC3D83E-8C30-454D-ADE5-C7F57F58E0CC}.Release|Win32.ActiveCfg = Release|Win32
+		{DEC3D83E-8C30-454D-ADE5-C7F57F58E0CC}.Release|Win32.Build.0 = Release|Win32
+		{4AA93330-4C1A-4E17-8AA2-AF2F28C06AC1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4AA93330-4C1A-4E17-8AA2-AF2F28C06AC1}.Debug|Win32.Build.0 = Debug|Win32
+		{4AA93330-4C1A-4E17-8AA2-AF2F28C06AC1}.Release|Win32.ActiveCfg = Release|Win32
+		{4AA93330-4C1A-4E17-8AA2-AF2F28C06AC1}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -34,5 +46,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{1A5FDB54-B7DE-4C48-BBE0-E91B14011280} = {03A2F936-73D4-4B5C-8FA2-1301B8BB576A}
 		{0DB0851C-34EB-41BA-A3FE-C2F6DE33E031} = {03A2F936-73D4-4B5C-8FA2-1301B8BB576A}
+		{DEC3D83E-8C30-454D-ADE5-C7F57F58E0CC} = {052132E9-C2A0-4C68-BAEF-EC19899923D4}
+		{4AA93330-4C1A-4E17-8AA2-AF2F28C06AC1} = {03A2F936-73D4-4B5C-8FA2-1301B8BB576A}
 	EndGlobalSection
 EndGlobal
