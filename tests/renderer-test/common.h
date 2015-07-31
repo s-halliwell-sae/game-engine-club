@@ -23,4 +23,7 @@ using glm::vec2;
 using glm::vec3;
 using glm::mat3;
 
+#define GL_GLEXT_PROTOTYPES
+#include <SDL_opengl.h>
+
 #endif

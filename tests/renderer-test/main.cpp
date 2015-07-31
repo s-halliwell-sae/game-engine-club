@@ -4,6 +4,7 @@
 #include "rendersystem.h"
 #include "renderable.h"
 #include "sprite.h"
+#include "texture.h"
 
 int main(){
 	try{
@@ -41,7 +42,18 @@ int main(){
 		// std::cout << glm::to_string(t.ComposeTransformMatrix() * vec3(1, 0.5, 1)) << std::endl;
 
 		auto sprite1 = new Sprite("sprite1");
-		sprite1->GetTransform().position += vec2(-1, 0);
+		auto tex = new Texture();
+		auto texData = new vec3[8*8];
+		for(u32 y = 0; y < 8; y++)
+			for(u32 x = 0; x < 8; x++){
+				texData[y*8 + x] = vec3(x/8.f, y/8.f, 1.f);
+			}
+
+		tex->LoadFromMemory(texData, 8, 8, GL_RGB);
+		// tex->SetFiltering(Texture::Linear);
+		// tex->SetWrapping(Texture::Clamp);
+		sprite1->SetTexture(tex);
+
 		rendersystem->AddRenderable(sprite1);
 		rendersystem->Render();
 
@@ -72,7 +84,7 @@ int main(){
 			glClearColor(0.7,0,1,1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
-			sprite1->GetTransform().position = vec2(cos(t*0.5)/**0.7*/, sin(t)*0.5);
+			sprite1->GetTransform().position = vec2(cos(t*0.5)*0.7, sin(t)*0.5);
 			sprite1->GetTransform().scale = vec2(sin(t*3)*0.08 + 1.f);
 			sprite1->GetTransform().rotation = t*M_PI/6.f;
 			rendersystem->Render();

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include "renderable.h"
+#include "texture.h"
 
 bool RenderablePriorityComparator::operator()(Renderable* a, Renderable* b) {
 	// RenderPriorities closer to 0 should be rendered first so sort
@@ -140,6 +141,9 @@ void RenderSystem::RemoveRenderable(Renderable* r){
 void RenderSystem::Render(){
 	if(renderQueueDirty) Sort();
 
+	glEnableVertexAttribArray(0 /* position */);
+	glEnableVertexAttribArray(1 /* uv */);
+
 	mat3 pvMatrix;
 	pvMatrix[0] = vec3(1.f/aspect, 0, 0);
 	pvMatrix[1] = vec3(0, 1, 0);
@@ -158,4 +162,11 @@ void RenderSystem::Sort(){
 	std::sort(renderQueue.begin(), renderQueue.end(), RenderablePriorityComparator());
 	renderQueueDirty = false;
 	// std::cout << "RenderQueue sorted" << std::endl;
+}
+
+void RenderSystem::BindTexture(Texture* tex){
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, tex->texture);
+	auto loc = glGetUniformLocation(shader, "texture");
+	glUniform1i(loc, 0);
 }

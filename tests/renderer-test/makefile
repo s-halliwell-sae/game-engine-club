@@ -6,7 +6,8 @@ BUILDDIR=../../build
 SRC=$(shell find . -name "*.cpp")
 OBJ=$(SRC:%.cpp=%.o)
 
-build: checkbuilddir $(BUILDDIR)/build
+build: checkbuilddir 
+	make -j 4 $(BUILDDIR)/build
 
 $(BUILDDIR)/build: $(OBJ)
 	g++ $^ $(LIBS) -o$(BUILDDIR)/build

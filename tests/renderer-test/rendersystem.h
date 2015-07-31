@@ -5,11 +5,9 @@
 #include <queue>
 #include <vector>
 
-#define GL_GLEXT_PROTOTYPES
-#include <SDL_opengl.h>
-
 struct SDL_Window;
 class Renderable;
+class Texture;
 
 enum RenderPriority : u32 {
 	Background,
@@ -48,6 +46,8 @@ public:
 	void AddRenderable(Renderable*, u32 = RenderPriority::Default);
 	void RemoveRenderable(Renderable*);
 	void Render();
+
+	void BindTexture(Texture*);
 };
 
 #endif
