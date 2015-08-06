@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\jem_STL_Alloc.h" />
+    <ClInclude Include="include\LinearAllocator.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DEC3D83E-8C30-454D-ADE5-C7F57F58E0CC}</ProjectGuid>

@@ -12,5 +12,8 @@
     <ClInclude Include="include\jem_STL_Alloc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\LinearAllocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
