@@ -11,6 +11,11 @@ namespace GEC
 		be manually cleared once EVERYTHING in the allocator is safe to dispose of.
 
 		Is not natively thread safe but could easily be made so by using thread locals
+
+		Once alignof is more widely adopted we should default to aligned allocations
+
+		TODO:
+			Needs to be configured/configurable to use jemalloc
 	*/
 	class LinearAllocator
 	{
@@ -46,6 +51,19 @@ namespace GEC
 			return retval;
 		}
 
+		//use of perfect forwarding to allow new with params
+		// see http://eli.thegreenplace.net/2014/perfect-forwarding-and-universal-references-in-c/
+		template<typename T, typename ...Args>
+		T* New(Args&&... args)
+		{
+			void* res = RequestSpace(sizeof(T));
+			if (res == nullptr)
+				return nullptr;
+
+			return new(res)T(std::forward<Args>(args)...);
+		}
+
+		//Does NOT call any dtors
 		void Clear()
 		{
 			mCur = mStart;

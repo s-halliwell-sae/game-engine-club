@@ -7,8 +7,9 @@
 
 #include <vector>
 
-class TestClass1{ int a; float b; char c[20]; };
+class TestClass1{protected: int a; float b; char c[20]; };
 class TestClass2{ int a[2]; float b; char c[10]; TestClass1 tc1; };
+class TestClass3 :public TestClass1{ public:TestClass3(int A, float B){ a = A; b = B; } private: int d; };
 
 void main()
 {
@@ -24,11 +25,13 @@ void main()
 
 	GEC::LinearAllocator la(sizeof(TestClass2) * 10);
 
+	auto tc3p = la.New<TestClass3>(1, 3.14f);
+
 	TestClass1* tc1 = nullptr;
 
 	do
 	{
-		TestClass1* tc1 = new(la.RequestSpace(sizeof(TestClass1))) TestClass1();
+		tc1 = la.New<TestClass1>();
 	} while (tc1 != nullptr);
 
 	la.Clear();
