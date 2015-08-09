@@ -13,22 +13,22 @@ namespace GEC
 		Is not natively thread safe but could easily be made so by using thread locals
 
 		Once alignof is more widely adopted we should default to aligned allocations
-
-		TODO:
-			Needs to be configured/configurable to use jemalloc
 	*/
+	template <typename _Alloc>
 	class LinearAllocator
 	{
 	public:
 		explicit LinearAllocator(size_t space):mTotalSpace(space)
 		{
-			mStart = new uint8_t[space];
+			//mStart = new uint8_t[space];
+			mStart = mAlloc.allocate(space);
 			mCur = mStart;
 		}
 
 		~LinearAllocator()
 		{
-			delete[] mStart;
+			//delete[] mStart;
+			mAlloc.deallocate(mStart, mTotalSpace);
 			mStart = nullptr;
 			mCur = mStart;
 			mTotalSpace = 0;
@@ -70,6 +70,7 @@ namespace GEC
 		}
 
 	private:
+		_Alloc mAlloc;
 		uint8_t	* mStart = nullptr, 
 				* mCur = nullptr;
 		size_t mTotalSpace = 0;

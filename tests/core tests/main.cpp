@@ -23,7 +23,7 @@ void main()
 
 
 
-	GEC::LinearAllocator la(sizeof(TestClass2) * 10);
+	GEC::LinearAllocator<GEC::JemAllocator<uint8_t>> la(sizeof(TestClass2) * 10);
 
 	auto tc3p = la.New<TestClass3>(1, 3.14f);
 
