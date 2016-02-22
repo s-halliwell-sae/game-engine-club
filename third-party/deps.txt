@@ -6,10 +6,10 @@ GLM
 https://github.com/g-truc/glm
 The third-party property sheet may need to be configured for its folders. We currently have glm-master\glm added to the c++ include dir 
 
-
+Box2D
 https://github.com/erincatto/Box2D
 
-Lua
+LuaJit
 Has it's own special build needs since we recommend luajit
 http://luajit.org/install.html
 
@@ -23,3 +23,7 @@ Will need to be built. Property sheet looks for headers (third-party\jemalloc-wi
 sdl 2.0
 https://buildbot.libsdl.org/sdl-builds/sdl-visualstudio/?C=M;O=D
 We have version 2522 in a folder called sdl, this is then included, libs link and dll copied via the general gec property sheet.
+
+glew
+ 1.13.0[08-10-15]:
+http://glew.sourceforge.net/

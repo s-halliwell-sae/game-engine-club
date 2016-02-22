@@ -6,7 +6,7 @@
 #include "sprite.h"
 #include "texture.h"
 
-int main(){
+void main(){
 	try{
 		if(SDL_Init(SDL_INIT_VIDEO) < 0){
 			throw "SDL Init failed";
@@ -94,8 +94,8 @@ int main(){
 
 	}catch(const char* e){
 		std::cerr << "Exception!\n" << e << std::endl;
-		return 1;
+		return;
 	}
 
-	return 0;
+	return;
 }

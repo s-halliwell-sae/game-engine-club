@@ -7,6 +7,8 @@
 #include "renderable.h"
 #include "texture.h"
 
+typedef  unsigned int uint;
+
 bool RenderablePriorityComparator::operator()(Renderable* a, Renderable* b) {
 	// RenderPriorities closer to 0 should be rendered first so sort
 	//	backwards
@@ -43,7 +45,7 @@ RenderSystem::RenderSystem(SDL_Window* window) : renderQueueDirty(false){
 	if(!file) throw "Shader not found";
 
 	file.seekg(0, file.end);
-	auto length = file.tellg();
+	size_t length = file.tellg();
 	file.seekg(0, file.beg);
 
 	std::string data(length+1l, '\0');
