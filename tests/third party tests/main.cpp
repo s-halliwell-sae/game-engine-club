@@ -57,6 +57,38 @@ void LuaTest(){
 	L = nullptr;
 }
 
+void HandleShaderCheck(GLuint shader)
+{
+	GLint hasFailed = GL_FALSE;
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &hasFailed);
+	if (hasFailed != GL_TRUE)
+	{
+		std::cout << "failed to compile vs\n";
+
+		//Shader log length
+		int infoLogLength = 0;
+		int maxLength = infoLogLength;
+
+		//Get info string length
+		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
+
+		//Allocate string
+		char* infoLog = new char[maxLength];
+
+		//Get info log
+		glGetShaderInfoLog(shader, maxLength, &infoLogLength, infoLog);
+		if (infoLogLength > 0)
+		{
+			//Print Log
+			printf("%s\n", infoLog);
+		}
+
+		//Deallocate string
+		delete[] infoLog;
+		std::exit(0);
+	}
+}
+
 void SDLStartUp()
 {
 	std::cout << "SDL Test" << std::endl;
@@ -96,16 +128,131 @@ void SDLStartUp()
 	rev = glewInit();
 
 	if (GLEW_OK != rev){
-	std::cout << "Error: " << glewGetErrorString(rev) << std::endl;
-	exit(1);
+		std::cout << "Error: " << glewGetErrorString(rev) << std::endl;
+		exit(1);
 	} else {
-	std::cout << "GLEW Init: Success!" << std::endl;
+		std::cout << "GLEW Init: Success!" << std::endl;
 	}
 
 		  	  
 	SDL_GL_SetSwapInterval(1);
 
+	//simple shaders
+	std::string vertShaderSource =
+	{
+		"#version 330\n"
+		"layout(location = 0) in vec2 vertex2D;\n"
+		"\n"
+		"void main() {\n"
+		"	vec3 position = vec3(vertex2D,0);\n"
+		"	gl_Position = vec4(position, 1);\n"
+		"}\n"
+	};
+
+	std::string fragShaderSource =
+	{
+		"#version 330\n"
+		"layout(location = 0) out vec4 color;\n"
+		"\n"
+		"void main() {\n"
+		//red pixels
+		"	color = vec4(1,0,0, 1);\n"
+		"}\n"
+	};
+
+	//create shaders and programs
+	auto vs = glCreateShader(GL_VERTEX_SHADER);
+	const GLchar* vsshaderSource = vertShaderSource.c_str();
+	glShaderSource(vs, 1, (const GLchar**)&vsshaderSource, nullptr);
+	glCompileShader(vs);
+	HandleShaderCheck(vs);
+
+	//TODO should check these actually worked
 	
+
+
+	auto fs = glCreateShader(GL_FRAGMENT_SHADER);
+	const GLchar* fsshaderSource = fragShaderSource.c_str();
+	glShaderSource(fs, 1, (const GLchar**)&fsshaderSource, nullptr);
+	glCompileShader(fs);
+	HandleShaderCheck(fs);
+
+	auto shaderProgram = glCreateProgram();
+	glAttachShader(shaderProgram, vs);
+	glAttachShader(shaderProgram, fs);
+	glLinkProgram(shaderProgram);
+
+	GLint haslinked = GL_TRUE;
+	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &haslinked);
+	if (haslinked != GL_TRUE)
+	{
+		std::cout << "failed to link vs and fs\n";
+		std::exit(0);
+	}
+	
+	auto vertexShaderLocation = glGetAttribLocation(shaderProgram, "vertex2D");
+
+	glDeleteShader(vs);
+	glDeleteShader(fs);
+
+	//create VBOs
+
+	GLuint vbo, ibo;
+	GLfloat verts[] =
+	{
+		-0.5f, -0.5f,
+		0.5f, -0.5f,
+		0.5f,  0.5f,
+		-0.5f,  0.5f
+	};
+
+	//set up indicies for triangle list
+	GLuint indicies[] = { 0, 1, 2, 0, 2, 3 };
+
+	GLuint vao = 0;
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+	glEnableVertexAttribArray(0 /* position */);
+
+	//Create VBO
+	glGenBuffers(1, &vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, 2 * 4 * sizeof(GLfloat), verts, GL_STATIC_DRAW);
+
+	//Create IBO
+	glGenBuffers(1, &ibo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(GLuint), indicies, GL_STATIC_DRAW);
+
+	//bind vbos, program and shader
+	glUseProgram(shaderProgram);
+	glEnableVertexAttribArray(vertexShaderLocation);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glVertexAttribPointer(vertexShaderLocation, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), NULL);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+
+	std::cout << "Drawing a red square for a bit\n";
+	//actually draw
+	for (int i = 0; i < 60; i++)
+	{
+		glClear(GL_COLOR_BUFFER_BIT);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
+		SDL_GL_SwapWindow(mainwindow);
+	}
+
+	//unbind
+	glDisableVertexAttribArray(vertexShaderLocation);
+	glUseProgram(NULL);
+
+	//free VBOs
+	glDeleteProgram(shaderProgram);
+	glDeleteBuffers(1, &vbo);
+	glDeleteBuffers(1, &ibo);
+	glDeleteVertexArrays(1, &vao);
+
+	//free programs
 
 	SDL_GL_DeleteContext(maincontext);
 	SDL_DestroyWindow(mainwindow);
